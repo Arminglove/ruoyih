@@ -6,7 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ruoyiframework" />
         <module name="ruoyicommen" />
+        <module name="ruoyiadmin" />
+        <module name="ruoyigenerator" />
+        <module name="ruoyiquartz" />
+        <module name="ruoyisystem" />
       </profile>
     </annotationProcessing>
   </component>

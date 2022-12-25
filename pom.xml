@@ -6,6 +6,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>ruoyicommen</module>
+        <module>ruoyiadmin</module>
+        <module>ruoyiframework</module>
+        <module>ruoyigenerator</module>
+        <module>ruoyiquartz</module>
+        <module>ruoyisystem</module>
     </modules>
     <groupId>org.example</groupId>
     <artifactId>ruoyi</artifactId>
@@ -15,5 +20,24 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+
+<dependencyManagement>
+    <dependencies>
+        <!-- SpringBoot的依赖配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>2.5.14</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 
 </project>

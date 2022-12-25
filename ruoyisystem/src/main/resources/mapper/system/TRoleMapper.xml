@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TRoleMapper">
+    
+    <resultMap type="TRole" id="TRoleResult">
+        <result property="id"    column="id"    />
+        <result property="rname"    column="rname"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectTRoleVo">
+        select id, rname, description from t_role
+    </sql>
+
+    <select id="selectTRoleList" parameterType="TRole" resultMap="TRoleResult">
+        <include refid="selectTRoleVo"/>
+        <where>  
+            <if test="rname != null  and rname != ''"> and rname like concat('%', #{rname}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectTRoleById" parameterType="Long" resultMap="TRoleResult">
+        <include refid="selectTRoleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTRole" parameterType="TRole" useGeneratedKeys="true" keyProperty="id">
+        insert into t_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rname != null and rname != ''">rname,</if>
+            <if test="description != null">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rname != null and rname != ''">#{rname},</if>
+            <if test="description != null">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTRole" parameterType="TRole">
+        update t_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rname != null and rname != ''">rname = #{rname},</if>
+            <if test="description != null">description = #{description},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTRoleById" parameterType="Long">
+        delete from t_role where id = #{id}
+    </delete>
+
+    <delete id="deleteTRoleByIds" parameterType="String">
+        delete from t_role where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
