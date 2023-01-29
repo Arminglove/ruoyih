@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TPermissionMapper">
+    
+    <resultMap type="TPermission" id="TPermissionResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectTPermissionVo">
+        select id, name, description from t_permission
+    </sql>
+
+    <select id="selectTPermissionList" parameterType="TPermission" resultMap="TPermissionResult">
+        <include refid="selectTPermissionVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectTPermissionById" parameterType="Long" resultMap="TPermissionResult">
+        <include refid="selectTPermissionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTPermission" parameterType="TPermission" useGeneratedKeys="true" keyProperty="id">
+        insert into t_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="description != null">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="description != null">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTPermission" parameterType="TPermission">
+        update t_permission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTPermissionById" parameterType="Long">
+        delete from t_permission where id = #{id}
+    </delete>
+
+    <delete id="deleteTPermissionByIds" parameterType="String">
+        delete from t_permission where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

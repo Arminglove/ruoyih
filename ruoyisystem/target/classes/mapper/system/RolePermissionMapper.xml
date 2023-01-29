@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.RolePermissionMapper">
+    
+    <resultMap type="RolePermission" id="RolePermissionResult">
+        <result property="id"    column="id"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="permissionId"    column="permission_id"    />
+    </resultMap>
+
+    <sql id="selectRolePermissionVo">
+        select id, role_id, permission_id from role_permission
+    </sql>
+
+    <select id="selectRolePermissionList" parameterType="RolePermission" resultMap="RolePermissionResult">
+        <include refid="selectRolePermissionVo"/>
+        <where>  
+            <if test="roleId != null "> and role_id = #{roleId}</if>
+            <if test="permissionId != null "> and permission_id = #{permissionId}</if>
+        </where>
+    </select>
+    
+    <select id="selectRolePermissionById" parameterType="Long" resultMap="RolePermissionResult">
+        <include refid="selectRolePermissionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertRolePermission" parameterType="RolePermission" useGeneratedKeys="true" keyProperty="id">
+        insert into role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">role_id,</if>
+            <if test="permissionId != null">permission_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="permissionId != null">#{permissionId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRolePermission" parameterType="RolePermission">
+        update role_permission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="permissionId != null">permission_id = #{permissionId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRolePermissionById" parameterType="Long">
+        delete from role_permission where id = #{id}
+    </delete>
+
+    <delete id="deleteRolePermissionByIds" parameterType="String">
+        delete from role_permission where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
